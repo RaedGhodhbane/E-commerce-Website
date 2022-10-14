@@ -1,0 +1,70 @@
+<form [formGroup]="ArticleForm" (ngSubmit)="modifier()">
+  <div>
+    <label> Nom </label>
+    <input type="text" formControlName="nom" class="form-control" />
+  </div>
+  <div *ngIf="submitted && f.nom.errors">
+    <span *ngIf="f.nom.errors.required"> Nom requis </span>
+  </div>
+  <div>
+    <label> Prix </label>
+    <input type="text" formControlName="prix" class="form-control" />
+  </div>
+  <div *ngIf="submitted && f.prix.errors">
+    <span *ngIf="f.prix.errors.required"> Prix requis </span>
+  </div>
+  <div>
+    <label> Quantité </label>
+    <input type="number" formControlName="quantity" class="form-control" />
+  </div>
+  <div *ngIf="submitted && f.quantity.errors">
+    <span *ngIf="f.quantity.errors.required"> Quantité requis </span>
+  </div>
+  <div>
+    <label> Description </label>
+    <input type="text" formControlName="description" class="form-control" />
+  </div>
+  <div *ngIf="submitted && f.description.errors">
+    <span *ngIf="f.description.errors.required"> Description requise </span>
+  </div>
+  <div>
+    <label> Marque </label>
+    <input type="text" formControlName="marque" class="form-control" />
+  </div>
+  <div *ngIf="submitted && f.marque.errors">
+    <span *ngIf="f.marque.errors.required"> Marque requise </span>
+  </div>
+  <div>
+    <label> Image </label>
+    <input
+      type="file"
+      name="image"
+      class="form-control"
+      (change)="upload($event)"
+      multiple
+    />
+  </div>
+  <div *ngIf="submitted && f.image.errors">
+    <span *ngIf="f.image.errors.required"> Image requise </span>
+  </div>
+  <div>
+    <label> Sous-Categorie </label>
+    <select formControlName="id_sous_category" class="form-control">
+      <option
+        *ngFor="let souscategory of souscategories"
+        value="{{ souscategory.nom }}"
+      >
+        {{ souscategory.nom }}
+      </option>
+    </select>
+  </div>
+  <div *ngIf="submitted && f.id_sous_category.errors">
+    <span *ngIf="f.id_sous_category.errors.required">
+      Sous-Catégorie requise
+    </span>
+  </div>
+  <br />
+  <div class="row">
+    <input type="submit" value="Modifier" class="btn btn-primary" />
+  </div>
+</form>

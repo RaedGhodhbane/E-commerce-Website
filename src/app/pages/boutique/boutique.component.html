@@ -1,0 +1,42 @@
+<div *ngIf="exist == 0">
+  <form [formGroup]="BoutiqueForm" (ngSubmit)="CreateBoutique()">
+    <div class="row">
+      <label for="nom">Nom:</label>
+      <input id="nom" type="text" formControlName="nom" />
+    </div>
+    <div *ngIf="submitted && f.nom.errors">
+      <span *ngIf="f.nom.errors.required"> Nom requis </span>
+    </div>
+    <div class="row">
+      <label for="">Adress:</label>
+      <input type="text" formControlName="adress" />
+    </div>
+    <div *ngIf="submitted && f.adress.errors">
+      <span *ngIf="f.adress.errors.required"> Adresse requise </span>
+    </div>
+    <div class="row">
+      <label for="">Telephone:</label>
+      <input type="text" formControlName="telephone" />
+    </div>
+    <div *ngIf="submitted && f.telephone.errors">
+      <span *ngIf="f.telephone.errors.required"> Téléphone requis </span>
+    </div>
+    <div class="row">
+      <label for="">Email:</label>
+      <input type="text" formControlName="email" />
+    </div>
+    <div *ngIf="submitted && f.email.errors">
+      <span *ngIf="f.email.errors.required"> Email requis </span>
+    </div>
+    <div class="row">
+      <label for="">logo:</label>
+      <input type="file" formControlName="logo" />
+    </div>
+    <div *ngIf="submitted && f.logo.errors">
+      <span *ngIf="f.logo.errors.required"> Logo requis </span>
+    </div>
+    <div class="row">
+      <input type="submit" value="Ajouter" class="btn btn-primary" />
+    </div>
+  </form>
+</div>

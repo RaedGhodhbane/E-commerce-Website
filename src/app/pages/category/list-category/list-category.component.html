@@ -1,0 +1,20 @@
+<button class="btn btn-primary" (click)="ajouter()">Ajouter</button>
+<table class="table">
+  <tr>
+    <td>ID</td>
+    <td>Nom</td>
+    <td>Actions</td>
+  </tr>
+  <tr *ngFor="let categorie of categories">
+    <td>{{ categorie.id }}</td>
+    <td>{{ categorie.nom }}</td>
+    <td>
+      <button class="btn btn-success" (click)="modifier(categorie)">
+        Modifier
+      </button>
+      <button class="btn btn-danger" (click)="confirm(categorie.id)">
+        Supprimer
+      </button>
+    </td>
+  </tr>
+</table>

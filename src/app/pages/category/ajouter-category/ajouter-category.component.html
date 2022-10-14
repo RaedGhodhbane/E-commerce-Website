@@ -1,0 +1,12 @@
+<form [formGroup]="CategoryForm" (ngSubmit)="ajouter()">
+  <div>
+    <label> Nom </label>
+    <input type="text" formControlName="nom" class="form-control" />
+  </div>
+  <div *ngIf="submitted && f.nom.errors">
+    <span *ngIf="f.nom.errors.required"> Nom requis </span>
+  </div>
+  <div class="row">
+    <input type="submit" value="Ajouter" class="btn btn-primary" />
+  </div>
+</form>

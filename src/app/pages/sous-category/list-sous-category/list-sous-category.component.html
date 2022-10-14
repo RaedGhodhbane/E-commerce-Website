@@ -1,0 +1,22 @@
+<button class="btn btn-primary" (click)="ajouter()">Ajouter</button>
+<table class="table">
+  <tr>
+    <td>ID</td>
+    <td>Nom</td>
+    <td>Category</td>
+    <td>Actions</td>
+  </tr>
+  <tr *ngFor="let sous_categorie of sous_categories">
+    <td>{{ sous_categorie.id }}</td>
+    <td>{{ sous_categorie.nom }}</td>
+    <td>{{ sous_categorie.id_categorie }}</td>
+    <td>
+      <button class="btn btn-success" (click)="modifier(sous_categorie)">
+        Modifier
+      </button>
+      <button class="btn btn-danger" (click)="confirm(sous_categorie.id)">
+        Supprimer
+      </button>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,23 @@
+<form [formGroup]="Sous_CategoryForm" (ngSubmit)="modifier()">
+  <div>
+    <label> Nom </label>
+    <input type="text" formControlName="nom" class="form-control" />
+  </div>
+  <div *ngIf="submitted && f.nom.errors">
+    <span *ngIf="f.nom.errors.required"> Nom requis </span>
+  </div>
+  <div>
+    <label> Id </label>
+    <select formControlName="id_categorie" class="form-control">
+      <option *ngFor="let category of categories" value="{{ category.nom }}">
+        {{ category.nom }}
+      </option>
+    </select>
+  </div>
+  <div *ngIf="submitted && f.id_categorie.errors">
+    <span *ngIf="f.id_categorie.errors.required"> Id requis </span>
+  </div>
+  <div class="row">
+    <input type="submit" value="Modifier" class="btn btn-primary" />
+  </div>
+</form>
