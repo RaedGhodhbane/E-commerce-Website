@@ -3,6 +3,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 
 import { AuthenticationService } from '../services/auth.service';
 import { AuthfakeauthenticationService } from '../services/authfake.service';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
@@ -10,14 +11,19 @@ import { environment } from '../../../environments/environment';
 export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
-        private authenticationService: AuthenticationService,
+        private authService: AuthenticationService,
         private authFackservice: AuthfakeauthenticationService
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        
-        // not logged in so redirect to login page with the return url
+    canActivate(
+      next: ActivatedRouteSnapshot,
+      state: RouterStateSnapshot
+    ): Observable<boolean> | Promise<boolean> | boolean {
+      console.log(this.authService.isLoggedIn);
+      if (this.authService.isLoggedIn == false) {
+        window.alert('Accès refusé, connexion requise pour accéder à cette page !');
         this.router.navigate(['/account/login'], { queryParams: { returnUrl: state.url } });
-        return false;
+      }
+      return true;
     }
 }

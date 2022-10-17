@@ -4,6 +4,10 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ChatUser, ChatMessage } from './chat.model';
 
 import { chatData, chatMessagesData } from './data';
+import { UtilisateurService } from '../../core/services/utilisateur.service';
+import { Utilisateur } from '../../core/models/utilisateur';
+import { Message } from '../../core/models/message';
+import { MessagesService } from '../../core/services/messages.service';
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +19,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollEle') scrollEle;
   @ViewChild('scrollRef') scrollRef;
 
-  username = 'Steven Franklin';
+  username = '';
 
   // bread crumb items
   breadCrumbItems: Array<{}>;
@@ -28,21 +32,71 @@ export class ChatComponent implements OnInit, AfterViewInit {
   // Form submit
   chatSubmit: boolean;
 
-  usermessage: string;
+  texte: string;
+  users: Utilisateur[];
+  messages: Message[];
+  user:any;
+  message= new Message('');
 
-  constructor(public formBuilder: FormBuilder) {
+  constructor(public formBuilder: FormBuilder, private utilisateurService: UtilisateurService,
+    private messageService: MessagesService) {
   }
 
   ngOnInit() {
     this.breadCrumbItems = [{ label: 'Skote' }, { label: 'Chat', active: true }];
-
-    this.formData = this.formBuilder.group({
-      message: ['', [Validators.required]],
-    });
+    this.user = JSON.parse(localStorage.getItem('userInfo'))
+    console.log(this.user);
 
     this.onListScroll();
 
-    this._fetchData();
+    this.getUsers();
+  }
+
+  getUsers(){
+    this.utilisateurService.getUsers().snapshotChanges().subscribe(data => {
+
+      this.users = data.map(user => {
+
+        return {
+
+          id: user.payload.doc.id,
+
+          ...user.payload.doc.data() as Utilisateur
+        }
+
+      })
+      console.log(this.users)
+      this.users = this.users.filter(data =>{
+        return data.id != this.user.uid
+      })
+
+      console.log(this.users)
+
+    })
+  }
+
+  getMessage(id:string){
+    this.messageService.getMessages().snapshotChanges().subscribe(data => {
+
+      this.messages = data.map(message => {
+
+        return {
+
+          id: message.payload.doc.id,
+
+          ...message.payload.doc.data() as Message
+        }
+
+      })
+      console.log(this.messages)
+      this.messages = this.messages.filter(message =>{
+        return message.recepteur.id == id || message.emetteur.id == id
+      })
+
+      console.log(this.messages)
+
+    })
+
   }
 
   ngAfterViewInit() {
@@ -57,10 +111,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     return this.formData.controls;
   }
 
-  private _fetchData() {
-    this.chatData = chatData;
-    this.chatMessagesData = chatMessagesData;
-  }
+
 
   onListScroll() {
     if (this.scrollRef !== undefined) {
@@ -71,43 +122,25 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
   }
 
-  chatUsername(name) {
-    this.username = name;
-    this.usermessage = 'Hello';
-    this.chatMessagesData = [];
-    const currentDate = new Date();
-
-    this.chatMessagesData.push({
-      name: this.username,
-      message: this.usermessage,
-      time: currentDate.getHours() + ':' + currentDate.getMinutes()
-    });
-
+  chatUsername(data) {
+    this.username = data.nom+' '+data.prenom;
+    this.message.recepteur = data || '';
+    this.getMessage(data.id);
   }
 
   /**
    * Save the message in chat
    */
   messageSave() {
-    const message = this.formData.get('message').value;
-    const currentDate = new Date();
-    if (this.formData.valid && message) {
-      // Message Push in Chat
-      this.chatMessagesData.push({
-        align: 'right',
-        name: 'Henry Wells',
-        message,
-        time: currentDate.getHours() + ':' + currentDate.getMinutes()
-      });
-      this.onListScroll();
 
-      // Set Form Data Reset
-      this.formData = this.formBuilder.group({
-        message: null
-      });
-    }
 
-    this.chatSubmit = true;
+    this.message.date = new Date().toString();
+    this.message.emetteur = this.user;
+    this.message.text = this.texte;
+    console.log(this.message)
+    let msg = Object.assign({},this.message)
+    this.messageService.CreateMessage(msg);
+
   }
 
 }

@@ -22,7 +22,6 @@ export class DefaultComponent implements OnInit {
 
   isActive: string;
 
-  @ViewChild('content') content;
   constructor(private modalService: NgbModal, private configService: ConfigService, private eventService: EventService) {
   }
 
@@ -53,9 +52,7 @@ export class DefaultComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.openModal();
-    }, 2000);
+
   }
 
   /**
@@ -72,54 +69,8 @@ export class DefaultComponent implements OnInit {
     });
   }
 
-  openModal() {
-    this.modalService.open(this.content, { centered: true });
-  }
 
-  weeklyreport() {
-    this.isActive = 'week';
-    this.emailSentBarChart.series =
-      [{
-        name: 'Series A',
-         data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
-      }, {
-        name: 'Series B',
-        data: [11, 17, 15, 15, 21, 14, 11, 18, 17, 12, 20, 18]
-      }, {
-        name: 'Series C',
-        data: [13, 23, 20, 8, 13, 27, 18, 22, 10, 16, 24, 22]
-      }];
-  }
 
-  monthlyreport() {
-    this.isActive = 'month';
-    this.emailSentBarChart.series =
-      [{
-        name: 'Series A',
-         data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
-      }, {
-        name: 'Series B',
-        data: [13, 23, 20, 8, 13, 27, 18, 22, 10, 16, 24, 22]
-      }, {
-        name: 'Series C',
-        data: [11, 17, 15, 15, 21, 14, 11, 18, 17, 12, 20, 18]
-      }];
-  }
-
-  yearlyreport() {
-    this.isActive = 'year';
-    this.emailSentBarChart.series =
-      [{
-        name: 'Series A',
-         data: [13, 23, 20, 8, 13, 27, 18, 22, 10, 16, 24, 22]
-      }, {
-        name: 'Series B',
-        data: [11, 17, 15, 15, 21, 14, 11, 18, 17, 12, 20, 18]
-      }, {
-        name: 'Series C',
-        data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
-      }];
-  }
 
 
   /**

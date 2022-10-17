@@ -11,15 +11,15 @@ export class UtilisateurService {
 
   constructor(private db: AngularFirestore) {
 
-    this.userRef = db.collection('/utilisateur');
+    this.userRef = db.collection('/users');
 
   }
 
 
 
-  // CreateUser(utilisateur: any) {
+  // CreateUser(users: any) {
 
-  //   return this.db.collection('/utilisateur').add(utilisateur)
+  //   return this.db.collection('/users').add(users)
 
   // }
 
@@ -35,28 +35,28 @@ export class UtilisateurService {
 
   deleteUser(id: string) {
 
-    return this.db.collection('/utilisateur').doc(id).delete();
+    return this.db.collection('/users').doc(id).delete();
 
   }
 
 
 
-  acceptUser(id: string, utilisateur: any) {
+  acceptUser(id: string, users: any) {
 
-    return this.db.collection('/utilisateur').doc(id).update(utilisateur);
-
-  }
-
-
-  bloqueUser(id: string, utilisateur: any) {
-
-    return this.db.collection('/utilisateur').doc(id).update(utilisateur);
+    return this.db.collection('/users').doc(id).update(users);
 
   }
 
-  debloqueUser(id: string, utilisateur: any) {
 
-    return this.db.collection('/utilisateur').doc(id).update(utilisateur);
+  bloqueUser(id: string, users: any) {
+
+    return this.db.collection('/users').doc(id).update(users);
+
+  }
+
+  debloqueUser(id: string, users: any) {
+
+    return this.db.collection('/users').doc(id).update(users);
 
   }
 

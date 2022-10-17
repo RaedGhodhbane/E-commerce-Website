@@ -58,11 +58,8 @@ export class AjouterArticleComponent implements OnInit {
 
           ...categorie.payload.doc.data() as Categorie
         }
-
       })
-
       console.log(this.categories)
-
     })
 
   }

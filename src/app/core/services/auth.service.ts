@@ -13,10 +13,13 @@ export class AuthenticationService {
         private router : Router,
         private db: AngularFirestore
         // public http: HttpClient
-    ) { 
+    ) {
         afAuth.authState.subscribe(user =>{
             if(user){
                 localStorage.setItem('user', JSON.stringify(user))
+                console.log(JSON.stringify(user)!)
+                console.log(user);
+                // localStorage.setItem('nom', 'ahmed')
             }
             else {
                 localStorage.setItem('user', null)
@@ -24,6 +27,19 @@ export class AuthenticationService {
         })
     }
 
+    get isLoggedIn(): boolean {
+      // const a=5;
+      // console.log("a")
+      // const nom = localStorage.getItem('nom');
+      const user = JSON.parse(localStorage.getItem('user')!);
+      console.log(localStorage.setItem('user', JSON.stringify(user)))
+      console.log(user);
+      if(user)
+        return true
+      else
+        return false
+      // return user !== 'null' ? true : false;
+    }
 
 
     login(user: any) {
@@ -36,9 +52,12 @@ export class AuthenticationService {
         console.log(uid);
         return this.db.collection('users').doc(uid).get().subscribe((doc)=>{
             console.log(doc.data());
+            // let user:any;
+            // user = doc.data();
+            // user.id = uid;
             localStorage.setItem('userInfo',JSON.stringify(doc.data()))
         });
-        
+
     }
 
 
@@ -68,7 +87,10 @@ export class AuthenticationService {
         })
     }
 
-    createUser(user,uid){
+    createUser(data,uid){
+      let user:any;
+            user = data;
+            user.id = uid;
         this.db.collection('users').doc(uid).set(user);
     }
 
